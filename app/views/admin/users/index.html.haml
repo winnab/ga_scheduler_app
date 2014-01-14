@@ -1,0 +1,27 @@
+%h2 
+  Users
+-if current_user.role == "Admin"
+  .buttons.padding
+    .btn.btn-default= link_to 'Add New User', new_admin_user_path
+  
+%table.table.table-bordered.table-striped.table-responsive
+  %thead
+    %tr
+      %th Name
+      %th Role
+      %th Email
+      %th Update
+      %th Created
+      %th Updated
+  %tbody
+    - @users.each do |user|
+      %tr
+        %td= link_to "#{user.full_name}", admin_user_path(user)
+        %td= user.role
+        %td= mail_to user.email
+        %td
+          %a= link_to 'Edit', edit_admin_user_path(user)
+          or 
+          %a= link_to 'Delete', admin_user_path(user), :method => :delete, :confirm => "Delete user #{user.first_name}?"
+        %td= user.created_at.to_formatted_s(:short)
+        %td= user.updated_at.to_formatted_s(:short)

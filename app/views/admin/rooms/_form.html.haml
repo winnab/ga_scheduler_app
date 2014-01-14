@@ -1,0 +1,27 @@
+= form_for([:admin, @room]) do |f|
+  
+  / - if @user.errors.any? 
+  / .error-messages
+  /   %h4 Form is invalid
+  /   %ul
+  /     - @user.errors.full_messages.each do |message|
+  /       %li= message
+          
+  .form-group
+    = f.label :name
+    %br/
+    = f.text_field :name
+  .form-group
+    = f.label :max_occupancy
+    %br/
+    = f.text_field :max_occupancy
+  .form-group
+    = f.label :first_avail_time
+    %br/      
+    = f.time_select :first_avail_time
+  .form-group
+    = f.label :last_avail_time
+    %br/      
+    = f.time_select :last_avail_time
+  .form-group
+    = f.submit(class: 'btn btn-default')  

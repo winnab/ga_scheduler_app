@@ -1,0 +1,47 @@
+.row
+  .col-xs-6.col-md-8
+    %h2.h2
+      = "#{@user.first_name} #{@user.last_name}"
+      %span.small= "#{@user.role}"
+    .buttons.padding
+      .btn.btn-default= link_to 'Edit User', edit_admin_user_path(@user)
+      &nbsp;&nbsp;
+      .btn.btn-default= link_to "Back to All Users", admin_users_path(@user)
+      &nbsp;&nbsp;
+      .btn.btn-default= "Reset Password"
+      &nbsp;&nbsp;
+      .btn.btn-default= "Delete User"
+.row
+  .col-xs-6.col-md-4
+    .panel.panel-default
+      .panel-heading
+        Registration Information
+      - if @user.courses.count > 0
+        %table.table.table-bordered.table-striped
+          %thead
+            %tr
+              %th{:colspan => 2}
+                %h4 Upcoming Courses
+          %tbody
+            - @user.courses.each do |course|
+              %tr
+                %td=link_to "#{course.name}", admin_course_path(course)
+                %td
+                  = form_tag drop_course_admin_user_path, class: 'btn-link' do
+                    = hidden_field_tag :course_id, course.id
+                    = submit_tag 'Drop Course', class: 'btn-link'
+      - if @available_courses.count > 0
+        %table.table.table-bordered.table-striped  
+          %thead
+            %tr
+              %th{:colspan => 2}
+                %h4= "Add Courses"
+          %tbody
+            - @available_courses.each do |course|
+              %tr
+                %td
+                  =link_to "#{course.name}", admin_course_path(course)
+                %td 
+                  = form_tag add_course_admin_user_path, class: 'btn-link' do
+                    = hidden_field_tag :course_id, course.id
+                    = submit_tag 'Add Course', class: 'btn-link'

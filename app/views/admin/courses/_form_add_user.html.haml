@@ -1,0 +1,16 @@
+/ = form_for([:admin, @course]) do |f|
+/   - if @course.errors.any? 
+/     .error-messages
+/       %h4 Form is invalid
+/       %ul
+/         - @course.errors.full_messages.each do |message|
+/           %li= message  
+/   .form-group
+/     = f.select :id, options_from_collection_for_select(User.where(role: 'Student'), 'id', 'first_name')
+/     = f.submit(value: 'Add User', class: 'btn btn-default')
+
+
+= form_tag register_admin_user_path do
+  .form-group
+    = select_tag :user_id, options_from_collection_for_select(User.students, 'id', 'full_name')
+    = submit_tag 'Add User', class: 'btn btn-default'    

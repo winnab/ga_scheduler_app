@@ -1,0 +1,25 @@
+%h2 Rooms
+-if current_user.role == "Admin" || current_user.role == "Producer"
+  .buttons.padding
+    .btn.btn-default= link_to 'Add New Room', new_admin_room_path
+
+%table.table.table-bordered.table-striped.table-responsive
+  %thead
+    %tr
+      %th Name
+      %th Update
+      %th Max Occupancy
+      %th Booking Hours
+      %th Courses
+
+  %tbody
+    - @rooms.each do |room|
+      %tr
+        %td= link_to "#{room.name}", admin_room_path(room)
+        %td
+          %a= link_to 'Edit', edit_admin_room_path(room)
+          or 
+          %a= link_to 'Delete', admin_room_path(room), :method => :delete, :confirm => "Delete room #{room.name}?"
+        %td= room.max_occupancy
+        %td= "#{room.first_avail_time.to_formatted_s(:time)} - #{room.last_avail_time.to_formatted_s(:time)}"
+        %td= link_to "Courses booked for #{room.name}", admin_room_path(room)

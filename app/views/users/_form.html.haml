@@ -1,0 +1,31 @@
+= form_for(@user) do |f|
+
+  - if @user.errors.any? 
+    .error-messages
+      %h4 Form is invalid
+      %ul
+        - @user.errors.full_messages.each do |message|
+          %li= message
+
+  .form-group
+    = f.label :first_name
+    %br/
+    = f.text_field :first_name
+  .form-group
+    = f.label :last_name
+    %br/
+    = f.text_field :last_name
+  .form-group
+    = f.label :email
+    %br/      
+    = f.email_field :email
+  .form-group
+    = f.label :password
+    %br/
+    = f.password_field :password
+  .form-group
+    = f.label :password_confirmation
+    %br/
+    = f.password_field :password_confirmation
+    
+  = f.submit value: 'Update', class: "btn btn-default"

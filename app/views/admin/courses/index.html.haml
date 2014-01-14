@@ -1,0 +1,42 @@
+%h2 Courses
+-if current_user.role == "Admin" || current_user.role == "Producer"
+  .buttons.padding
+    .btn.btn-default= link_to 'Add New Course', new_admin_course_path
+
+%table.table.table-bordered.table-striped.table-responsive
+  %thead
+    %tr
+      %th Name
+      %th Category
+      %th Lead Instructor
+      %th Producer
+      %th Min Attendees
+      %th Max Attendees
+      %th Enrolled      
+      %th Session Times 
+      %th Start Date
+      %th End Date
+      %th Price
+      %th Update
+      %th Location
+
+  %tbody
+    - @courses.each do |course|  
+      %tr
+        %td 
+          %a= link_to "#{course.name}", admin_course_path(course)
+        %td= course.category
+        %td= "#{course.lead_instructor.first_name} #{course.lead_instructor.last_name}"
+        %td= "#{course.producer.first_name} #{course.producer.last_name}"
+        %td= course.min_attendees
+        %td= course.max_attendees
+        %td= course.users.students.count
+        %td= "#{course.start_time.to_formatted_s(:time)} - #{course.end_time.to_formatted_s(:time)}"
+        %td= course.start_date
+        %td= course.end_date
+        %td= "£#{course.price}"
+        %td
+          %a= link_to 'Edit', edit_admin_course_path(course) 
+          or 
+          %a= link_to 'Delete', admin_course_path(course), :method => :delete, :confirm => "Delete course #{course.name}?" 
+        %td= course.room.name

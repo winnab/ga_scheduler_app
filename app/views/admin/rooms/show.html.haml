@@ -1,0 +1,42 @@
+.row
+  .col-xs-12.col-md-8
+    %h2.h2=@room.name
+    .buttons.padding
+      .btn.btn-default= link_to 'Edit', edit_admin_room_path(@room)
+      &nbsp;&nbsp;
+      .btn.btn-default= link_to "Back to All Rooms", admin_rooms_path
+
+.row
+  .col-md-4
+    .panel.panel-default
+      .panel-heading
+        Room Information  
+      %table.table.table-bordered.table-striped
+        %thead
+          %tr
+            %th{:colspan => 2}
+              %h4= "Details"
+        %tbody
+          %tr
+            %td Maximum&nbsp;Occupancy
+            %td= @room.max_occupancy
+          %tr
+            %td Available&nbsp;Times
+            %td
+              = "#{@room.first_avail_time}" 
+              - 
+              ="#{@room.last_avail_time}"
+
+      - if @room.courses.count > 0
+        %table.table.table-bordered.table-striped
+          %thead
+            %tr
+              %th{:colspan => 2}
+                %h4 Courses 
+          %tbody
+            - @room.courses.each do |course|
+              %tr
+                %td= link_to "#{course.name}", admin_course_path(course)
+                %td
+                  Registered&nbsp;Attendees:
+                  = course.users.count

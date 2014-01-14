@@ -1,0 +1,10 @@
+%h2 My Schedule
+%h3= "#{@user.first_name} #{@user.last_name}"
+%h5= mail_to @user.email
+%a=link_to 'Edit My Profile', edit_user_path, class: "btn btn-default"  
+%div
+  %h5= "Registered Courses" 
+  - @user.courses.each do |course|
+    %ul
+      %li 
+        %a= link_to "#{course.name}", course_path(course)

@@ -1,0 +1,46 @@
+!!! 5
+%html
+  %head
+    %title General Assembly Scheduler
+    = stylesheet_link_tag    "application", :media => "all"
+    = javascript_include_tag "application"
+    = csrf_meta_tags
+  %body
+    %header
+      %h1
+        = link_to("General Assembly", courses_path)
+        %span.small Scheduler
+    %nav.navbar.navbar-default.navbar-fixed-top{:role => "navigation"}
+      .collapse.navbar-collapse.navbar-ex1-collapse
+        %ul.nav.navbar-nav
+          %li= link_to("What's On", courses_path)
+          %li
+            %span || 
+          %ul.nav.navbar-nav.navbar-right
+          -if current_user
+            -if current_user.role == "Admin" || current_user.role == "Producer"
+              %li
+                %span Admin:
+              %li= link_to("Users", admin_users_path)
+              %li= link_to("Courses", admin_courses_path)
+              %li= link_to("Rooms", admin_rooms_path) 
+              %li
+                %span ||
+            %li= link_to("#{current_user.first_name}, #{current_user.role.capitalize}", user_path(current_user))
+            %li= link_to 'Logout', logout_path, method: :delete
+          -else
+            %li= link_to "Login", login_path
+            %li= link_to "Sign Up", signup_path
+        %form.navbar-form.navbar-right{:role => "search"}
+          .form-group
+            %input.form-control{:placeholder => "Search doesn't work yet", :type => "text"}
+          %button.btn.btn-default{:type => "submit"} Search
+    .main=yield
+    %footer.footer
+      %p
+        © 2013 General Assembly. All rights reserved. 
+        %a Terms 
+        %a Privacy 
+        %span.pull-right
+          Assembled in NYC
+

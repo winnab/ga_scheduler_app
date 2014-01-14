@@ -1,0 +1,93 @@
+.row
+  .col-xs-12.col-md-8
+    %h2.h2= @course.name
+    .buttons.padding
+      .btn.btn-default= link_to 'Edit Course', edit_admin_course_path(@course)
+      &nbsp;&nbsp;
+      .btn.btn-default= link_to "Back to All Courses", admin_courses_path
+.row
+  .col-md-4
+    %table.table.table-bordered.table-striped
+      %thead
+        %tr
+          %th{:colspan => 2}
+            %h4= "Courses Details"
+      %tbody
+        %tr
+          %td Meeting&nbsp;Times
+          %td
+            %span="#{@course.start_time.to_formatted_s(:time)}"
+            &ndash;
+            %span="#{@course.end_time.to_formatted_s(:time)}"
+        %tr
+          %td Meeting&nbsp;Dates
+          %td
+            %span="#{@course.start_date}"
+            &ndash;
+            %span="#{@course.end_date}"
+        %tr
+          %td Room
+          %td
+            = link_to "#{@course.room.name}, ", admin_room_path(@course.room)
+            = "Capacity: #{@course.room.max_occupancy}"
+        %tr
+          %td Lead&nbsp;Instructor
+          %td= link_to "#{@course.lead_instructor.first_name} #{@course.lead_instructor.last_name}", admin_user_path(@course.lead_instructor)
+        %tr
+          %td Course&nbsp;Producer
+          %td= link_to "#{@course.producer.first_name} #{@course.producer.last_name}", admin_user_path(@course.producer)
+        %tr
+          %td Overview
+          %td= @course.description
+
+
+  - if @course.users
+    .col-md-4
+      %table.table.table-bordered.table-striped
+        %thead
+          %tr
+            %th{:colspan => 2}
+              %h4
+                Enrollment Details
+              %h4.small Needs ability to add users
+              %h4.small Needs to always show lead instructors and producer as users registered
+        %tbody
+          - if @course.users.students
+            %tr
+              %td Students
+              %td
+                - @course.users.students.each do |user|
+                  %ul.no-style
+                    %li= link_to "#{user.full_name}", admin_user_path(user)
+          - if @course.users.instructors
+            %tr
+              %td Instructors
+              %td  
+                - @course.users.instructors.each do |user|
+                  %ul.no-style
+                    - if @course.lead_instructor == user
+                      %li
+                        %strong
+                          = link_to "#{user.full_name},", admin_user_path(user)
+                          Lead Instructor
+                    - else
+                      %li= link_to "#{user.full_name}", admin_user_path(user)
+
+          - if @course.users.admin || @course.users.producers
+            %tr
+              %td Staff
+              %td
+                - @course.users.staff.each do |user|
+                  %ul.no-style
+                    - if @course.producer == user
+                      %li
+                        %strong
+                          = link_to "#{user.full_name},", admin_user_path(user)
+                          Course Producer
+                    - else
+                      %li
+                        = link_to "#{user.full_name},", admin_user_path(user)
+                        = user.role
+
+
+

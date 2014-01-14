@@ -1,0 +1,6 @@
+.col-xs-6.col-md-4
+  %h2.form-signin-heading Edit Account
+  =render 'form'
+  %div
+  =link_to 'Delete My Account', user_path, :method => :delete, :confirm => "Are you sure you want to delete your account?", class: "btn btn-default"
+  =link_to 'Back', user_path, class: "btn btn-default"

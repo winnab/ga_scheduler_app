@@ -1,0 +1,12 @@
+%h2= @course.name
+%h4
+  = "#{@course.start_time}" 
+  - 
+  ="#{@course.end_time}"
+%h4
+  Lead by:
+  = "#{@course.lead_instructor.first_name} #{@course.lead_instructor.last_name}"
+%h4= "£ #{@course.price}"
+%p= @course.description
+.btn.btn-default= link_to 'Register', add_course_user_path(current_user)
+.btn.btn-default= link_to 'Back', root_path

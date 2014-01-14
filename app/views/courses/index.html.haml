@@ -1,0 +1,27 @@
+.page-height
+  %h1 What's On
+  - @courses.each do |course| 
+    .col-xs-6.col-md-4.page-height
+      %ul.no-style
+        %li 
+          %h3.yellow-dashes-top
+            %a=link_to "#{course.name}", course_path(course)
+          %h6
+            = "#{course.start_date} - #{course.end_date}"
+          %h6.small
+            = "#{course.start_time.to_formatted_s(:time)} - #{course.end_time.to_formatted_s(:time)}"
+          %h5
+            = "#{course.lead_instructor.first_name} #{course.lead_instructor.last_name}"
+          %p
+            = course.description
+          - if current_user && (course.users.include? current_user)
+            %button.btn.btn-default{disabled: "disabled", type: "button"} Already Registered!
+          - elsif current_user
+            .btn.btn-default 
+              = form_tag add_course_user_path(course), class: 'btn-link' do
+                = hidden_field_tag :id, current_user.id
+                = submit_tag 'Add Course', class: 'btn-link'
+          - else
+            .btn.btn-default 
+              = form_tag add_course_user_path(course), class: 'btn-link' do
+                = submit_tag 'Add Course', class: 'btn-link'
